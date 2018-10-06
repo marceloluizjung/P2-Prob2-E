@@ -28,7 +28,7 @@ public class ContaCorrente {
     }
 
     public String getChave(){
-        return String.valueOf(agencia)+"-"+String.valueOf(numero);
+        return String.valueOf(agencia)+"-"+String.valueOf(numero)+"-"+this.servicosCCAtivos();
     }
     
     public void sacar(double valor){
@@ -38,12 +38,18 @@ public class ContaCorrente {
         Operacao oper = new Operacao(valor,this.getSaldo(),TipoOperacao.SAIDA,new Date(),this);
         operacoes.add(oper);
         this.saldo -= valor;
+        if(this.servicos.isSaque()){
+            System.out.println("Saque efetuado no valor de: " + valor);
+        }
     }
     
     public void depositar(double valor){
         Operacao oper = new Operacao(valor,this.getSaldo(),TipoOperacao.ENTRADA,new Date(),this);
         operacoes.add(oper);
         this.saldo += valor;
+         if(this.servicos.isDeposito()){
+             System.out.println("Deposito efetuado no valor de: " + valor);
+        }
     }    
     
     public void transferir(double valor, ContaCorrente destino){
@@ -54,12 +60,15 @@ public class ContaCorrente {
         Operacao oper = new OperacaoTransferencia(valor,this.getSaldo(),TipoOperacao.SAIDA,new Date(),this,destino);
         operacoes.add(oper);
         this.saldo -= valor;
+        if(this.servicos.isTransferencia()){
+             System.out.println("Transferência efetuada no valor de: " + valor + " para a conta " + destino.getNumero());
+        }
     }   
     
     private void receberTransferencia(double valor, ContaCorrente origem){    
         Operacao oper = new OperacaoTransferencia(valor,this.getSaldo(),TipoOperacao.ENTRADA,new Date(),this,origem);
         operacoes.add(oper);
-        this.saldo += valor;        
+        this.saldo += valor;
     }
     
     public int getNumero() {
@@ -95,8 +104,8 @@ public class ContaCorrente {
         return this.getChave();
     }
     
-    public String servicosAtivos(){ 
-        return null; 
+    public String servicosCCAtivos(){ 
+        return this.servicos.servicosAtivos(); 
     }
     
 }

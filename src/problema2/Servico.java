@@ -67,4 +67,26 @@ public class Servico {
         this.baixaAutomaticaInvestimento = baixaAutomaticaInvestimento;
     }
 
+    public String servicosAtivos(){ 
+        String servicos = "";
+        
+        if(this.isAnaliseFluxoCaixa()){
+            servicos += "Serviço de Analise de Fluxo de Caixa, ";
+        }
+        if(this.isBaixaAutomaticaInvestimento()){
+            servicos += "Serviço Baixa Automatica de Investimento, "; 
+        }
+        if(this.isDeposito()){
+           servicos += "Serviço de Deposito, ";             
+        }
+        if(this.isSaque()){
+           servicos += "Serviço de Saque, ";  
+        }
+        if(this.isTransferencia()){
+           servicos += "Serviço de Transferencia, ";   
+        }
+        
+        return servicos; 
+    }
+    
 }

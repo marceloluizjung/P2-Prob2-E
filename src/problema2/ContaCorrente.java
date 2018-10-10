@@ -13,22 +13,22 @@ import java.util.List;
  *
  * @author marcel
  */
-public class ContaCorrente {
+public class ContaCorrente implements Subject{
     private int numero;
     private int agencia;
     private Cliente cliente;
     private double saldo = 0;
     private List<Operacao> operacoes = new ArrayList();
-    private Servico servicos;
-    
-    public ContaCorrente(int numero, int agencia,boolean saque,boolean deposito,boolean transferencia,boolean analiseFluxoCaixa,boolean baixaAutomaticaInvestimento) {
-        this.servicos = new Servico(saque, deposito, transferencia, analiseFluxoCaixa, baixaAutomaticaInvestimento);
+    private List<Observer> observers;
+
+    public ContaCorrente(int numero, int agencia) {
         this.setNumero(numero);
         this.setAgencia(agencia);
+        this.observers = new ArrayList<Observer>();
     }
 
     public String getChave(){
-        return String.valueOf(agencia)+"-"+String.valueOf(numero)+"-"+this.servicosCCAtivos();
+        return String.valueOf(agencia)+"-"+String.valueOf(numero);
     }
     
     public void sacar(double valor){
@@ -38,19 +38,17 @@ public class ContaCorrente {
         Operacao oper = new Operacao(valor,this.getSaldo(),TipoOperacao.SAIDA,new Date(),this);
         operacoes.add(oper);
         this.saldo -= valor;
-        if(this.servicos.isSaque()){
-            System.out.println("Saque efetuado no valor de: " + valor);
-        }
+        notifyObserver(); 
     }
     
     public void depositar(double valor){
         Operacao oper = new Operacao(valor,this.getSaldo(),TipoOperacao.ENTRADA,new Date(),this);
         operacoes.add(oper);
         this.saldo += valor;
-         if(this.servicos.isDeposito()){
-             System.out.println("Deposito efetuado no valor de: " + valor);
-        }
+        notifyObserver();
     }    
+    
+    
     
     public void transferir(double valor, ContaCorrente destino){
         if (valor > this.getSaldo()){
@@ -60,15 +58,16 @@ public class ContaCorrente {
         Operacao oper = new OperacaoTransferencia(valor,this.getSaldo(),TipoOperacao.SAIDA,new Date(),this,destino);
         operacoes.add(oper);
         this.saldo -= valor;
-        if(this.servicos.isTransferencia()){
-             System.out.println("Transferência efetuada no valor de: " + valor + " para a conta " + destino.getNumero());
-        }
+        
     }   
     
+    
+    
     private void receberTransferencia(double valor, ContaCorrente origem){    
+        notifyObserver();
         Operacao oper = new OperacaoTransferencia(valor,this.getSaldo(),TipoOperacao.ENTRADA,new Date(),this,origem);
         operacoes.add(oper);
-        this.saldo += valor;
+        this.saldo += valor;        
     }
     
     public int getNumero() {
@@ -103,9 +102,24 @@ public class ContaCorrente {
     public String toString(){
         return this.getChave();
     }
-    
-    public String servicosCCAtivos(){ 
-        return this.servicos.servicosAtivos(); 
+
+    @Override
+    public void register(Observer o) {
+        observers.add(o);
     }
-    
+
+    @Override
+    public void unregister(Observer o) {
+        int observerIndex = observers.indexOf(o);
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObserver() {
+             
+        for(Observer observer: observers){
+            observer.update();
+        }
+        
+    }
 }

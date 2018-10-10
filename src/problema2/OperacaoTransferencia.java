@@ -1,6 +1,7 @@
 package problema2;
 
 
+import problema2.ContaCorrente;
 import java.util.Date;
 
 /**

@@ -11,12 +11,19 @@ package problema2;
  */
 public class AnaliseInvestimento implements Observer{
 
+    private AnaliseInvestimento ai;
     
     @Override
     public void update() {
+        this.teste();
         System.out.println("Foi realizada a análise de investimento");
     }
  
-    
+    public AnaliseInvestimento teste(){ 
+        if(ai == null){ 
+            ai = new AnaliseInvestimento(); 
+        }
+        return ai;
+    }
     
 }

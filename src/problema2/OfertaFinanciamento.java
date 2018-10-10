@@ -11,9 +11,19 @@ package problema2;
  */
 public class OfertaFinanciamento implements Observer{
 
+        private OfertaFinanciamento of;
+    
     @Override
     public void update() {
-        System.out.println("Foi realizada a oferta de financiamento!");
+        this.testeOF();
+        System.out.println("Foi realizada a oferta de financiamento");
+    }
+ 
+    public OfertaFinanciamento testeOF(){ 
+        if(of == null){ 
+            of = new OfertaFinanciamento(); 
+        }
+        return of;
     }
  
     

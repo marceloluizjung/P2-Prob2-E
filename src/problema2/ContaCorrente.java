@@ -61,8 +61,23 @@ public class ContaCorrente implements Subject{
         
     }   
     
+    public void transferir(double valor, ContaCorrente destino, Enum e){
+        
+        if(e.equals("SAIDA")){
+            System.out.println("");
+        }
+        
+        if (valor > this.getSaldo()){
+            throw new IllegalArgumentException("Saldo insuficiente para transferência");
+        }        
+        destino.receberTransferencia(valor, this);
+        Operacao oper = new OperacaoTransferencia(valor,this.getSaldo(),TipoOperacao.SAIDA,new Date(),this,destino);
+        operacoes.add(oper);
+        this.saldo -= valor;
+        
+    }   
     
-    
+      
     private void receberTransferencia(double valor, ContaCorrente origem){    
         notifyObserver();
         Operacao oper = new OperacaoTransferencia(valor,this.getSaldo(),TipoOperacao.ENTRADA,new Date(),this,origem);

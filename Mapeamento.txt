@@ -1,0 +1,10 @@
+Padrões de Projeto
+Atividade 02 - Banco FastMoney
+
+Padrão Utilizado:
+
+Observer:
+	- Subject <Interface>: Interface Subject;
+	- ConcreteSubject: Classe ContaCorrente;
+	- Observer<Interface>: Interface Observer;
+	- ConcreteObserver: Classes AnaliseDeFluxoDeCaixaObserver; AnaliseDeInvestimento; BaixaInvestimentoObserver; FluxoDeCaixaObserver; NotificacaoObserver; OfertaFinanciamento; TipoMensagem.

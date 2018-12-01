@@ -1,10 +1,23 @@
-Padr�es de Projeto
+Padrões de Projeto
 Atividade 02 - Banco FastMoney
 
-Padr�o Utilizado:
+Padrão Utilizado:
 
 Observer:
 	- Subject <Interface>: Interface Subject;
 	- ConcreteSubject: Classe ContaCorrente;
 	- Observer<Interface>: Interface Observer;
 	- ConcreteObserver: Classes AnaliseDeFluxoDeCaixaObserver; AnaliseDeInvestimento; BaixaInvestimentoObserver; FluxoDeCaixaObserver; NotificacaoObserver; OfertaFinanciamento; TipoMensagem.
+	
++-*+-*+-*+-*+-*+-*+-*+-*
+Observações do Professor:
+- a classe de testes ficou apenas no template da geração automática: ContaCorrenteTest.
+- foi criada outra classe (ContaTeste) para apresentar a solução, mas não é uma classe de testes.
+- o método update da interface Observer deveria receber algum parâmetro para poder realizar sua ação sobre o observável (Subject - ContaCorrente):
+public interface Observer {
+    void update(); 
+}
+
+- classe TipoMensagem está incompleta
+
+Nota (0-3): 2,8
